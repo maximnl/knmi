@@ -5,6 +5,7 @@ This repository handles KNMI weer /weather datasets and views.
 KNMI data per day and per hour is transformed and merged to a dataset per day for easier dayily forecast and planning operations. 
 Data (from 1900 and all dutch weather stations) can be accessed uppon a request via Issues. 
 The access can be granted to Azure SQL database which is practical for business users with PowerBI or Excel. 
+All our data is optimized for ultra fast selects from PowerBI or Excels making it suitable for dayly updates of weather data in your existing Excel datamodels or reports. (an integration example with Excel and lookups to PowerBI dataset in a datahub can be provided) 
 We can also provide a PowerBI file with re-created measures (Excel will not be able to read a default PowerBI dataset with only the columns)
 
 Improvements:
