@@ -85,5 +85,5 @@ SELECT TOP (1000) [STN]
   <img width="1174" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/b828600e-f900-4299-add2-27a42a04fb3d">
 
 
-
+<meta name="google-site-verification" content="_GQ4Sf8SjYCRk7XOG5ifZidV_Qm9kZCEnlS0ZfxXykg" />
   
