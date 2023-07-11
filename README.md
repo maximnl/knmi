@@ -1,6 +1,6 @@
 # knmi
 
-This repository handles KNMI weer /weather datasets and views. 
+This repository handles KNMI weer /weather datasets and views for easy plug and play into existing Excel or PowerBI models. 
 
 KNMI data per day and per hour is transformed and merged to a dataset per day for easier dayily forecast and planning operations. 
 Data (from 1900 and all dutch weather stations) can be accessed uppon a request via Issues. 
