@@ -86,4 +86,11 @@ SELECT TOP (1000) [STN]
 
 
 <meta name="google-site-verification" content="_GQ4Sf8SjYCRk7XOG5ifZidV_Qm9kZCEnlS0ZfxXykg" />
+
+Usage with POWERBI
+
+<img width="1170" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/a7d2cf50-1009-459b-b4e5-39844112f752">
+<img width="318" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/2b6e22a1-689b-4429-bdf9-aa9676e63090">
+
+
   
