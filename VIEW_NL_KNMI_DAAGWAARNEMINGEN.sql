@@ -53,9 +53,9 @@ SELECT K.[STN]
       , U_NACHT 'U: Relatieve vochtigheid % nacht'
       , U_OVERDAG 'U: Relatieve vochtigheid % overdag'
       , U_AVOND 'U: Relatieve vochtigheid % avond'
-      , FH_NACHT 'U: Windsnelheid m/s nacht'
-      , FH_OVERDAG 'U: Windsnelheid m/s overdag'
-      , FH_AVOND 'U: Windsnelheid m/s avond'
+      , FH_NACHT 'FH: Windsnelheid m/s nacht'
+      , FH_OVERDAG 'FH: Windsnelheid m/s overdag'
+      , FH_AVOND 'FH: Windsnelheid m/s avond'
       ,[M] 'M: Misturen'
       ,[R] 'R: Regenuren'
       ,[S] 'S: Sneeuwuren'
@@ -70,6 +70,12 @@ SELECT K.[STN]
          + -0.000003582*((T_OVERDAG*T_OVERDAG)*(U_OVERDAG*100*U_OVERDAG*100)) 
         ELSE T_OVERDAG END as [T_GEV: Gevoelstemperatuur overdag]
  
+
+
+  FROM [OPENDATA].[NL_KNMI] K
+  left join OPENDATA.NL_KNMI_STN S on K.STN=S.STN
+
+  
 
 
   FROM [OPENDATA].[NL_KNMI] K
