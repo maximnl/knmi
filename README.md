@@ -85,12 +85,42 @@ SELECT TOP (1000) [STN]
   <img width="1174" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/b828600e-f900-4299-add2-27a42a04fb3d">
 
 
-<meta name="google-site-verification" content="_GQ4Sf8SjYCRk7XOG5ifZidV_Qm9kZCEnlS0ZfxXykg" />
 
 Usage with POWERBI
 
 <img width="1170" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/a7d2cf50-1009-459b-b4e5-39844112f752">
 <img width="318" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/2b6e22a1-689b-4429-bdf9-aa9676e63090">
+
+
+
+<meta name="google-site-verification" content="_GQ4Sf8SjYCRk7XOG5ifZidV_Qm9kZCEnlS0ZfxXykg" />
+<meta name="keywords" content="KNMI, weather, historic, Netherlands, powerbi, excel, planning, forecasting,Wind chill, heat index,gevoelstemperatuur"/>
+<meta name="description" content="KNMI historical data optimized for Excel and PowerBI applications, added descriptin"/>
+<meta name="subject" content="your website's subject">
+<meta name="copyright"content="">
+<meta name="language" content="EN">
+<meta name="robots" content="index,follow" />
+<meta name="revised" content="Tuesday, July 11th, 2023, 5:15 pm" />
+<meta name="abstract" content="">
+<meta name="topic" content="forecasting">
+<meta name="summary" content="">
+<meta name="Classification" content="Business">
+<meta name="author" content="Maxim, maxim@plansis.nl">
+<meta name="designer" content="">
+<meta name="copyright" content="">
+<meta name="reply-to" content="maxim@plansis.nl">
+<meta name="owner" content="">
+<meta name="url" content="">
+<meta name="identifier-URL" content="">
+<meta name="directory" content="submission">
+<meta name="category" content="">
+<meta name="coverage" content="Worldwide">
+<meta name="distribution" content="Global">
+<meta name="rating" content="General">
+<meta name="revisit-after" content="7 days">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
 
 
   
