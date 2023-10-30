@@ -1,23 +1,108 @@
 # knmi
 
-This repository handles KNMI weer / weather DAY/HOUR historical weather datasets for easy plug and play into existing Excel or PowerBI models. 
+This repository aims to simplify access to KNMI weather data from Excel models and Microsoft Power BI datasets. 
+KNMI is a central dutch authority for weather measurements and weather forecast. It provides open API for accessing weather data via files. 
+Many business users, planners and forecasters which a less familiar with Python , file handling and API find it too challenging / time consuming accessing the data. 
+Moreover, KNMI chunky data structure and API data size limitations require local storing and processing of data in many business scenario's.
 
-KNMI data per day and per hour is transformed and merged to a dataset per day for easier dayily forecast and planning operations. 
-Data (from 1900 and all dutch weather stations) can be accessed uppon a request via Issues. 
-The access can be granted to Azure SQL database which is practical for business users with PowerBI or Excel. 
-All our data is optimized for ultra fast selects from PowerBI or Excels making it suitable for dayly updates of weather data in your existing Excel datamodels or reports. (an integration example with Excel and lookups to PowerBI dataset in a datahub can be provided) 
-We can also provide a PowerBI file with re-created measures (Excel will not be able to read a default PowerBI dataset with only the columns)
+We provide :
+A1. documentation and maintainance on alternative ways to access KNMI data directly,
+A2. an access to processed and normalized data via optimized Azure SQL database tables (updated daily) with a direct SQL connect access uppon a request.
+A3. CSV access via URL for an even easier integration with Excel (pending work, expected in 2024. Access for beta testers direct per request.)
 
+# Data 
+Data is organized in three domains / tables 
+D1. DAY historical weather data
+D2. INTRADAY (hourly) weather data
+D3. Forecast data 14 days for 6 weather stations
+
+## D1
+KNMI data per day is transformed into normal decimal units, extended with clear name and extended with some hourly data consolidated to the day level. 
 Improvements:
 
-1. KNMI data is stored in 0.1 units. The units are transformed to decimals
+1. KNMI data is stored in 0.1 units to avoid decimals. For application usage the units need to be transformed back to decimals
 2. More decriptive fieldnames are provided
 3. Selected hourly data is aggregated per daypart (night is from 0 to 7; day from 8 to 15 ; evening from 16 to 23) and merged with daydata
 4. Feeling temperature (#gevoelstemperatuur) calculation. It combines :
  - Under 10 degrees Celcius we use Wind chill Methode JAG/TI zoals berekend door Amerikaanse en Canadese weerbureau's vanaf 1 november 2001 (https://www.uitenbuiten.nl/index.php/windchill-calculator2):
  - Above 25 degrees we use Heat index (https://en.wikipedia.org/wiki/Heat_index)
  - A temperature, wind and humidiy during the day hours (averages) are used.
- - (see VIEW_NL_KNMI_DAAGWAARNEMINGEN for the SQL calculations applied)
+
+Data per day starts from 1900 and includes 50+ dutch weather stations. 
+
+### Historical day, hourly and precipitation data
+
+We advice to access KNMI daily and hourly data via een script page using POST method. 
+Base data : (day/hour data)[https://daggegevens.knmi.nl/klimatologie/daggegevens]
+Script page: (script)[https://www.knmi.nl/kennis-en-datacentrum/achtergrond/data-ophalen-vanuit-een-script]
+
+Example: getting day data for selected list of stations (STN parameter) for the last 10 days  
+(https://www.daggegevens.knmi.nl/klimatologie/daggegevens&stns=391:340:315:308:286:269:319:251:240:344:215:280:273:279:380:330:313:249:209:277:377:258:312:290:331:356:370:375:310:285:267:260:235:210:270:265:324:348:323:248:350:316:283:278:343:225:242:311:275:257&start=20231020)
+Notice that the Script page uses POST method and will show an error if you simply accesing via URL (it uses GET method which will not work from URL or Excel)
+
+Getting hourly weather data work in a similar manner. 
+Getting precipitation data idem.
+
+### Weather forecast data
+
+Forecast data can be previewed via a PLUIM page (PLUIM)[https://www.knmi.nl/nederland-nu/weer/waarschuwingen-en-verwachtingen/weer-en-klimaatpluim]
+PLUIM page consists of highcharts which obscure getting the time series forecast data. 
+With big thanks to #alliander weather api work we got a way to access the underlying table data directly. 
+(alliander weather api / pluim model)[https://github.com/alliander-opensource/weather-provider-api/blob/main-2.0/weather_provider_api/routers/weather/sources/knmi/models/pluim.py]
+Unfortunately the data is segmentend per station per varaible. The data comes preformated in JSON format ment for highcharts javascript web component and requires extra processing.
+
+Model name "ECMWF pluim"
+URL: https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/{stn}_{factor}.json
+Description = Predictions for the coming 15 days, current included, with two predictions made for " "each day."
+{stn} -  parameter is one of 6 weather stations. 
+{factor} is one of the codes: 
+            "wind_speed": {
+                "name": "wind_speed",
+                "convert": self.kmh_to_ms,  # km/h -> m/s
+                "code": 11012,
+            },
+            "wind_direction": {
+                "name": "wind_direction",
+                "convert": self.no_conversion,  # 360N, 270W, ...
+                "code": 11011,
+            },
+            "short_time_wind_speed": {
+                "name": "wind_speed_max",
+                "convert": self.kmh_to_ms,  # km/h -> m/s
+                "code": 11041,
+            },
+            "temperature": {
+                "name": "temperature",
+                "convert": self.celsius_to_kelvin,  # degree C -> Kelvin
+                "code": 99999,
+            },
+            "precipitation": {
+                "name": "precipitation",
+                "convert": lambda x: x / 1000,  # mm -> m
+                "code": 13021,
+            },
+            "precipitation_sum": {
+                "name": "precipitation_sum",
+                "convert": lambda x: x / 1000,  # mm -> m
+                "code": 13011,
+            },
+            "cape": {
+                "name": "cape",
+                "convert": lambda x: x / 1000,
+                "code": 13241,
+            },  # J/kg
+        }
+Example: getting temperature forecast data for 15 days for De Bilt (station=260):        
+https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/260_99999.json
+
+<img width="1155" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/52ae8fd5-ada1-4334-898e-2b95aacf7b61">
+
+
+## A2
+The access A2 can be granted to Azure SQL database which is practical for business users with PowerBI or Excel. 
+A2 features compressed table storage for ultra fast select queries from PowerBI or Excels. 
+We will be providing docs for dayly updates of weather data in your existing Excel models or Power BI datasets. 
+ 
 
 ```SQL
 SELECT TOP (1000) [STN]
@@ -90,6 +175,10 @@ Usage with POWERBI
 
 <img width="1170" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/a7d2cf50-1009-459b-b4e5-39844112f752">
 <img width="318" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/2b6e22a1-689b-4429-bdf9-aa9676e63090">
+
+
+
+
 
 
 
