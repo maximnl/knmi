@@ -1,6 +1,6 @@
 # KNMI
 
-This repository aims to simplify access to KNMI weather data from Excel models and Microsoft Power BI datasets. 
+This repository aims to simplify access to KNMI weather data platform (KNMI data)[https://dataplatform.knmi.nl/] from Excel models and Microsoft Power BI datasets. 
 KNMI is a central dutch authority for weather measurements and weather forecast. It provides open API for accessing weather data via files. 
 Many business users, planners and forecasters which a less familiar with Python , file handling and API find it too challenging / time consuming accessing the data. 
 Moreover, KNMI chunky data structure and API data size limitations require local storing and processing of data in many business scenario's.
