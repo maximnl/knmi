@@ -1,4 +1,4 @@
-# knmi
+# KNMI
 
 This repository aims to simplify access to KNMI weather data from Excel models and Microsoft Power BI datasets. 
 KNMI is a central dutch authority for weather measurements and weather forecast. It provides open API for accessing weather data via files. 
@@ -55,6 +55,9 @@ Model name "ECMWF pluim"
 URL: https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/{stn}_{factor}.json
 Description = Predictions for the coming 15 days, current included, with two predictions made for " "each day."
 {stn} -  parameter is one of 6 weather stations. 
+<img width="456" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/66111bc1-d7be-440f-be86-ffba6d844bfa">
+
+
 {factor} is one of the codes: 
             "wind_speed": {
                 "name": "wind_speed",
