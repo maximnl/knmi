@@ -59,6 +59,7 @@ Description = Predictions for the coming 15 days, current included, with two pre
 
 
 {factor} is one of the codes: 
+```json
             "wind_speed": {
                 "name": "wind_speed",
                 "convert": self.kmh_to_ms,  # km/h -> m/s
@@ -95,6 +96,8 @@ Description = Predictions for the coming 15 days, current included, with two pre
                 "code": 13241,
             },  # J/kg
         }
+```
+
 Example: getting temperature forecast data for 15 days for De Bilt (station=260):        
 https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/260_99999.json
 
