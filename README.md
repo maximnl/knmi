@@ -41,6 +41,11 @@ Example: getting day data for selected list of stations (STN parameter) for the 
 Notice that the Script page uses POST method and will show an error if you simply accesing via URL (it uses GET method which will not work from URL or Excel)
 
 Getting hourly weather data work in a similar manner. 
+(hourly data)[https://www.daggegevens.knmi.nl/klimatologie/uurgegevens]
+METHOD: POST
+Filter (Azure Synapse Analytics Copy data (getting last 10 days data): stns=391:340:315:308:286:269:319:251:240:344:215:280:273:279:380:330:313:249:209:277:377:258:312:290:331:356:370:375:310:285:267:260:235:210:270:265:324:348:323:248:350:316:283:278:343:225:242:311:275:257&start=@{formatDateTime(addDays(utcNow(),-10),'yyyyMMdd')}&end=@{formatDateTime(addDays(utcNow(),0),'yyyyMMdd')}
+<img width="770" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/f70f5169-b036-4ea5-89bf-f4889a9ef516">
+
 Getting precipitation data idem.
 
 ### Weather forecast data
