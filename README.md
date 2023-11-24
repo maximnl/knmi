@@ -48,20 +48,27 @@ Filter (Azure Synapse Analytics Copy data (getting last 10 days data): stns=391:
 
 Getting precipitation data idem.
 
+KNMI daggegevens data is verified every morning and thereof lagging 1 day (available for yeasterday and earlier). 
+Data is usually updated after 8:00 - 9:00 in the morning. 
+
+Daggegevens data can be accessed from POWER BI directly (using POST request )
+how to send post request (youtube)[https://www.youtube.com/watch?v=4dJ2vobI-G8]
+
+
 ### Weather forecast data
 
 Forecast data can be previewed via a PLUIM page (PLUIM)[https://www.knmi.nl/nederland-nu/weer/waarschuwingen-en-verwachtingen/weer-en-klimaatpluim]
 PLUIM page consists of highcharts which obscure getting the time series forecast data. 
 With big thanks to #alliander weather api work we got a way to access the underlying table data directly. 
 (alliander weather api / pluim model)[https://github.com/alliander-opensource/weather-provider-api/blob/main-2.0/weather_provider_api/routers/weather/sources/knmi/models/pluim.py]
-Unfortunately the data is segmentend per station per varaible. The data comes preformated in JSON format ment for highcharts javascript web component and requires extra processing.
+Unfortunately the data is segmentend per station per varaible. The data comes preformated in JSON format for highcharts javascript web component and requires extra processing.
 
 Model name "ECMWF pluim"
+Forecast data is from ECMWF (link)[https://www.ecmwf.int/en/forecasts/datasets/open-data]
 URL: https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/{stn}_{factor}.json
 Description = Predictions for the coming 15 days, current included, with two predictions made for " "each day."
 {stn} -  parameter is one of 6 weather stations. 
 <img width="456" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/66111bc1-d7be-440f-be86-ffba6d844bfa">
-
 
 {factor} is one of the codes: 
 ```json
@@ -102,6 +109,7 @@ Description = Predictions for the coming 15 days, current included, with two pre
             },  # J/kg
         }
 ```
+more information to be found at Alliander Weather provider api / sources / pluim github (github)[https://github.com/alliander-opensource/weather-provider-api/tree/main-2.0]
 
 Example: getting temperature forecast data for 15 days for De Bilt (station=260):        
 https://cdn.knmi.nl/knmi/json/page/weer/waarschuwingen_verwachtingen/ensemble/iPluim/260_99999.json
