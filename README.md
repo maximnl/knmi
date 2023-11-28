@@ -1,20 +1,20 @@
 # KNMI
 
 This repository aims to simplify access to KNMI weather data platform (KNMI data)[https://dataplatform.knmi.nl/] from Excel models and Microsoft Power BI datasets. 
-KNMI is a central dutch authority for weather measurements and weather forecast. It provides open API for accessing weather data via files. 
-Many business users, planners and forecasters which a less familiar with Python , file handling and API find it too challenging / time consuming accessing the data. 
-Moreover, KNMI chunky data structure and API data size limitations require local storing and processing of data in many business scenario's.
+KNMI is a central dutch authority for weather measurements and forecast. KNMI provides open API for accessing weather data via files. 
+Many business users, planners and forecasters with less ICT experience use KNMI daggegevens via the daily/hourly manual file download facility. 
+We aim to reduce manual efforts and automate access to daily data of KNMI via script method, which may not be easy to find at KNMI site. 
 
 We provide :
-A1. documentation and maintainance on alternative ways to access KNMI data directly,
-A2. an access to processed and normalized data via optimized Azure SQL database tables (updated daily) with a direct SQL connect access uppon a request.
+A1. documentation and maintainance on alternative ways to access KNMI daily data directly from Power BI and Excel,
+A2. an access to processed and normalized data via optimized Azure SQL database tables (updated daily) with a direct SQL access (uppon a request).
 A3. CSV access via URL for an even easier integration with Excel (pending work, expected in 2024. Access for beta testers direct per request.)
 
 # Data 
-Data is organized in three domains / tables 
+Data is locally stored and organized in three domains / tables 
 D1. DAY historical weather data
 D2. INTRADAY (hourly) weather data
-D3. Forecast data 14 days for 6 weather stations
+D3. ECMWF Forecast data 14 days for 6 weather stations obtained via KNMI PLUIM charting data (forecast of (ECMWF)[https://www.ecmwf.int/en/forecasts/datasets/open-data]
 
 ## D1
 KNMI data per day is transformed into normal decimal units, extended with clear name and extended with some hourly data consolidated to the day level. 
