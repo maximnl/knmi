@@ -1,22 +1,27 @@
 # KNMI
 
-This repository aims to simplify access to KNMI weather data platform (KNMI data)[https://dataplatform.knmi.nl/] from Excel models and Microsoft Power BI datasets. 
-KNMI is a central dutch authority for weather measurements and forecast. KNMI provides open API for accessing weather data via files. 
-Many business users, planners and forecasters with less ICT experience use KNMI daggegevens via the daily/hourly manual file download facility. 
-We aim to reduce manual efforts and automate access to daily data of KNMI via script method, which may not be easy to find at KNMI site. 
+This repository aims to simplify automated fetching of climate data from KNMI weather data platform (KNMI data)[https://dataplatform.knmi.nl/] to Excel models and Microsoft Power BI datasets. 
+KNMI is a central dutch authority for weather measurements and forecast. KNMI provides open API for accessing weather data via files updated every 10 min intervals. 
+This file access method requires a good knowledge of Python for data processing and consolidation. 
+Many business users, planners and forecasters with less ICT experience consume KNMI data via combined datasets (daggegevens, uurgegegevens) via the daily/hourly manual file download web forms facility.
+For running periodic models and production models, the manual steps carry risk of errors, staff absence etc. An automated facility saves 10-20 per update or up to 100 hours ($5K ) per year by daily loads. 
+
+We aim to 
+1. reduce manual efforts and automate access via KNMI script method, which may not be easy to find at KNMI site. 
+2. the absence of GET access and zipped data limits direct applications from Excel which require additional proxy which we develop and maintain. 
 
 We provide :
-A1. documentation and maintainance on alternative ways to access KNMI daily data directly from Power BI and Excel,
-A2. an access to processed and normalized data via optimized Azure SQL database tables (updated daily) with a direct SQL access (uppon a request).
-A3. CSV access via URL for an even easier integration with Excel (pending work, expected in 2024. Access for beta testers direct per request.)
+A1. documentation and maintainance on simplified ways to access KNMI daily data via a script page (via url post method) directly from Azure Synapse, Power BI and Excel,
+A2. an access to processed and normalized data via an optimized Azure SQL database tables (updated daily) with a direct SQL access (uppon a request).
+A3. Proxy access via URL for a direct integration with Excel (pending work, expected in 2024. Access for beta testers on request).
 
 # Data 
 Data is locally stored and organized in three domains / tables 
-D1. DAY historical weather data
-D2. INTRADAY (hourly) weather data
-D3. ECMWF Forecast data 14 days for 6 weather stations obtained via KNMI PLUIM charting data (forecast of (ECMWF)[https://www.ecmwf.int/en/forecasts/datasets/open-data]
+A1.D DAY historical weather data
+A1.H INTRADAY (hourly) weather data
+A1.F ECMWF Forecast data 14 days for 6 weather stations obtained via KNMI PLUIM charting data (forecast of (ECMWF)[https://www.ecmwf.int/en/forecasts/datasets/open-data]
 
-## D1
+## A1
 KNMI data per day is transformed into normal decimal units, extended with clear name and extended with some hourly data consolidated to the day level. 
 Improvements:
 
@@ -30,7 +35,7 @@ Improvements:
 
 Data per day starts from 1900 and includes 50+ dutch weather stations. 
 
-### Historical day, hourly and precipitation data
+### Historical day A1.D
 
 We advice to access KNMI daily and hourly data via een script page using POST method. 
 Base data : (day/hour data)[https://daggegevens.knmi.nl/klimatologie/daggegevens]
@@ -40,11 +45,20 @@ Example: getting day data for selected list of stations (STN parameter) for the 
 (https://www.daggegevens.knmi.nl/klimatologie/daggegevens&stns=391:340:315:308:286:269:319:251:240:344:215:280:273:279:380:330:313:249:209:277:377:258:312:290:331:356:370:375:310:285:267:260:235:210:270:265:324:348:323:248:350:316:283:278:343:225:242:311:275:257&start=20231020)
 Notice that the Script page uses POST method and will show an error if you simply accesing via URL (it uses GET method which will not work from URL or Excel)
 
-Getting hourly weather data work in a similar manner. 
+### Historical A1.H 
+
+Getting hourly weather data work in a similar manner vai a POST method. 
 (hourly data)[https://www.daggegevens.knmi.nl/klimatologie/uurgegevens]
 METHOD: POST
 Filter (Azure Synapse Analytics Copy data (getting last 10 days data): stns=391:340:315:308:286:269:319:251:240:344:215:280:273:279:380:330:313:249:209:277:377:258:312:290:331:356:370:375:310:285:267:260:235:210:270:265:324:348:323:248:350:316:283:278:343:225:242:311:275:257&start=@{formatDateTime(addDays(utcNow(),-10),'yyyyMMdd')}&end=@{formatDateTime(addDays(utcNow(),0),'yyyyMMdd')}
 <img width="770" alt="image" src="https://github.com/maximnl/knmi/assets/33482502/f70f5169-b036-4ea5-89bf-f4889a9ef516">
+
+#### Alternative for the script method
+We experienced a sudden pate 505 error while getting hourly data via the script method (hourly data). An alternative is to get data via a standard url available at https://www.knmi.nl/nederland-nu/klimatologie/uurgegevens
+This method returns a zipped csv file for a preselected stations or date range. The fact that it is zipped limits Excel applications to manual only loads. 
+We will be providing a proxy method to get data directly in excel in the first half of 2024.  
+
+### Historical precipitation data A1.P
 
 Getting precipitation data idem.
 
@@ -53,6 +67,7 @@ Data is usually updated after 8:00 - 9:00 in the morning.
 
 Daggegevens data can be accessed from POWER BI directly (using POST request )
 how to send post request (youtube)[https://www.youtube.com/watch?v=4dJ2vobI-G8]
+
 
 
 ### Weather forecast data
